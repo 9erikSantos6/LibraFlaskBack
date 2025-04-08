@@ -12,15 +12,15 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
-        # from app import models
+        from app import models
 
-        # db.create_all()  # cria as tabelas
+        db.create_all()  # cria as tabelas
 
-        # from .routers import main_bp, livro_bp
+        from .routers import main_bp, livro_bp
         from .routers import main_bp
 
         app.register_blueprint(main_bp)
-        # app.register_blueprint(livro_bp)
+        app.register_blueprint(livro_bp)
         pass
 
     return app
