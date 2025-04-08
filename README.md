@@ -39,6 +39,7 @@
 - Flask
 - SQLite3 (banco de dados local)
 - JSON (para comunicação via API)
+- `python-dotenv` (para variáveis de ambiente)
 
 ---
 
@@ -61,12 +62,22 @@ source venv/bin/activate     # No Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 4. Inicie a API
+### 4. Configure as variáveis de ambiente
+- Copie o arquivo `.env.example` para `.env`:
 ```bash
-python main.py
+cp .env.example .env
+```
+- No arquivo `.env`, você pode configurar a porta da aplicação:
+```env
+PORT=15000
 ```
 
-A API estará disponível em: `http://localhost:15000`
+### 5. Inicie a API
+```bash
+python run.py
+```
+
+A API estará disponível em: `http://localhost:<PORT>` (por padrão, `15000`)
 
 ---
 
