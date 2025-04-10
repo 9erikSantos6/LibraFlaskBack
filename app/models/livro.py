@@ -3,8 +3,8 @@ from app import db
 
 class Livro(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    titulo = db.Column(db.String(100), nullable=False)
-    autor = db.Column(db.String(100), nullable=False)
+    titulo = db.Column(db.String(200), nullable=False)
+    autor = db.Column(db.String(200), nullable=False)
     ano = db.Column(db.Date)
     genero = db.Column(db.String(50))
     sinopse = db.Column(db.Text)

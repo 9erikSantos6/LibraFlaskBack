@@ -12,8 +12,6 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
-        from app import models
-
         db.create_all()  # cria as tabelas
 
         from .routers import main_bp, livro_bp
