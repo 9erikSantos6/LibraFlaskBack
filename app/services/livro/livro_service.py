@@ -6,16 +6,8 @@ from .livro_validations import LivroValidador
 class LivroService:
     @staticmethod
     def criar_livro(data):
-        LivroValidador.validar_dados(data)
-
-        livro = Livro(
-            titulo=data["titulo"],
-            autor=data["autor"],
-            ano=data.get("ano"),
-            genero=data.get("genero"),
-            sinopse=data.get("sinopse"),
-        )
-
+        dados_livro_validados = LivroValidador.validar_dados(data)
+        livro = Livro(**dados_livro_validados)
         db.session.add(livro)
         db.session.commit()
         return livro
