@@ -1,4 +1,5 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, pre_load
+from bleach import clean
 
 
 class LivroSchema(Schema):
@@ -12,6 +13,7 @@ class LivroSchema(Schema):
             "validator_failed": "Título deve ter de 2 a 200 caracteres.",
             "null": "Título não pode ser nulo.",
         },
+        nullable=False,
     )
 
     autor = fields.Str(
@@ -22,7 +24,7 @@ class LivroSchema(Schema):
             "validator_failed": "Autor deve ter no de 2 a 200 caracteres.",
             "null": "Autor não pode ser nulo.",
         },
-        nuable=False,
+        nullable=False,
     )
 
     ano = fields.Date(
@@ -39,3 +41,10 @@ class LivroSchema(Schema):
         validate=lambda x: 2 <= len(x) <= 500,
         error_messages={"validator_failed": "Sinopse deve ter de 2 a 500 caracteres."},
     )
+
+    @pre_load
+    def sanitize_input(self, data, **kwargs):
+        for key, value in data.items():
+            if isinstance(value, str):
+                data[key] = clean(value)
+        return data
