@@ -8,11 +8,11 @@ livro_bp = Blueprint("livros", __name__, url_prefix="/livros")
 def get_livros():
     livros = LivroService.listar_livros()
     if not livros:
-        return jsonify({"message": "Nenhum livro encontrado."}), 404
+        return jsonify({"message": "Nenhum livro encontrado."}), 200
     return jsonify(livros), 200
 
 
-@livro_bp.route("/adicionar", methods=["POST"])
+@livro_bp.route("/", methods=["POST"])
 def add_livro():
     data = request.get_json()
     try:
