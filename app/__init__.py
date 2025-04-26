@@ -22,6 +22,8 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
+        from app.models.livro import Livro
+
         EnvConfigurator.configure_database(app, db)
 
     BlueprintCreator.criar_blueprints(app, APP_BLUEPRINTS)
