@@ -2,13 +2,13 @@ from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from marshmallow import ValidationError
 
-from app.config import BlueprintCreator, EnvConfigurator
+from app.config import BlueprintCreator, EnvConfigurator, DatabaseConfigurator
 
 
 db = SQLAlchemy()
 
 APP_BLUEPRINTS = [
-    # (module_name, blueprint_name)
+    # ("module.name", "blueprint_name")
     ("app.routers.main_router", "main_bp"),
     ("app.routers.livro_router", "livro_bp"),
 ]
@@ -17,14 +17,12 @@ APP_BLUEPRINTS = [
 def create_app():
     app = Flask(__name__)
 
-    EnvConfigurator.configure_env(app)
+    EnvConfigurator.load_app_config(app)
 
     db.init_app(app)
 
     with app.app_context():
-        from app.models.livro import Livro
-
-        EnvConfigurator.configure_database(app, db)
+        DatabaseConfigurator.init_db(app, db)
 
     BlueprintCreator.criar_blueprints(app, APP_BLUEPRINTS)
 

@@ -23,12 +23,6 @@ class EnvConfigurator:
         return EnvConfigurator._env_config_name
 
     @staticmethod
-    def configure_env(app: Flask):
+    def load_app_config(app: Flask):
         env_name = EnvConfigurator.get_env_name()
         app.config.from_object(EnvConfigType[env_name].value)
-
-    @staticmethod
-    def configure_database(app: Flask, db: SQLAlchemy):
-        if EnvConfigurator.get_env_name() != EnvConfigType.PRODUCTION.name:
-            with app.app_context():
-                db.create_all()
