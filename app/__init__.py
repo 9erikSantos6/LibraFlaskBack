@@ -8,19 +8,21 @@ from app.config import BlueprintCreator, EnvConfigurator
 db = SQLAlchemy()
 
 APP_BLUEPRINTS = [
+    # (module_name, blueprint_name)
     ("app.routers.main_router", "main_bp"),
     ("app.routers.livro_router", "livro_bp"),
 ]
 
+
 def create_app():
     app = Flask(__name__)
-    
+
     EnvConfigurator.configure_env(app)
-    
+
     db.init_app(app)
-    
+
     with app.app_context():
-        EnvConfigurator.configure_database(db)
+        EnvConfigurator.configure_database(app, db)
 
     BlueprintCreator.criar_blueprints(app, APP_BLUEPRINTS)
 

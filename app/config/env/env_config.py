@@ -2,17 +2,33 @@ import os
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from config import ConfigType
+from config import EnvConfigType
+
 
 class EnvConfigurator:
-    ENV_CONFIG_NAME = os.getenv("FLASK_ENV", "default").upper()
+    _env_config_name = None
+
+    @staticmethod
+    def get_env_name():
+        if EnvConfigurator._env_config_name is None:
+            env = os.getenv("FLASK_ENV", "development").upper()
+            env = env.replace("-", "_").replace(" ", "_").replace(".", "_")
+
+            if env not in EnvConfigType.__members__:
+                raise ValueError(
+                    f"Invalid environment name: {env}. "
+                    f"Valid options are: {', '.join(EnvConfigType.__members__.keys())}"
+                )
+            EnvConfigurator._env_config_name = env
+        return EnvConfigurator._env_config_name
+
     @staticmethod
     def configure_env(app: Flask):
-        if EnvConfigurator.ENV_CONFIG_NAME not in ConfigType.__members__:
-            raise ValueError(f"Invalid environment name: {EnvConfigurator.ENV_CONFIG_NAME}")
-        app.config.from_object(ConfigType[EnvConfigurator.ENV_CONFIG_NAME].value)
-        
+        env_name = EnvConfigurator.get_env_name()
+        app.config.from_object(EnvConfigType[env_name].value)
+
     @staticmethod
-    def configure_database(db: SQLAlchemy):
-        if EnvConfigurator.ENV_CONFIG_NAME != ConfigType.PRODUCTION.name:
-            db.create_all()
+    def configure_database(app: Flask, db: SQLAlchemy):
+        if EnvConfigurator.get_env_name() != EnvConfigType.PRODUCTION.name:
+            with app.app_context():
+                db.create_all()
