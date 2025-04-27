@@ -1,4 +1,4 @@
-from app import db
+from app import DB
 from app.models import Livro
 from .livro_validations import LivroValidador
 
@@ -8,8 +8,8 @@ class LivroService:
     def criar_livro(data):
         dados_livro_validados = LivroValidador.validar_dados(data)
         livro = Livro(**dados_livro_validados)
-        db.session.add(livro)
-        db.session.commit()
+        DB.session.add(livro)
+        DB.session.commit()
         return livro
 
     @staticmethod
@@ -35,7 +35,7 @@ class LivroService:
         for key, value in dados_livro_validados.items():
             setattr(livro, key, value)
 
-        db.session.commit()
+        DB.session.commit()
         return livro.to_dict()
 
     @staticmethod
@@ -44,8 +44,8 @@ class LivroService:
         if not livro:
             raise ValueError("Livro não encontrado")
 
-        db.session.delete(livro)
-        db.session.commit()
+        DB.session.delete(livro)
+        DB.session.commit()
         return {"message": "Livro deletado com sucesso"}
 
     @staticmethod
@@ -58,7 +58,7 @@ class LivroService:
             if hasattr(livro, key):
                 setattr(livro, key, value)
 
-        db.session.commit()
+        DB.session.commit()
         return livro.to_dict()
 
     @staticmethod

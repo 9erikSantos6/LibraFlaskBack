@@ -5,7 +5,7 @@ from marshmallow import ValidationError
 from app.config import BlueprintCreator, EnvConfigurator, DatabaseConfigurator
 
 
-db = SQLAlchemy()
+DB = SQLAlchemy()
 
 APP_BLUEPRINTS = [
     # ("module.name", "blueprint_name")
@@ -19,10 +19,10 @@ def create_app():
 
     EnvConfigurator.load_app_config(app)
 
-    db.init_app(app)
+    DB.init_app(app)
 
     with app.app_context():
-        DatabaseConfigurator.init_db(app, db)
+        DatabaseConfigurator.init_db(app, DB)
 
     BlueprintCreator.criar_blueprints(app, APP_BLUEPRINTS)
 
