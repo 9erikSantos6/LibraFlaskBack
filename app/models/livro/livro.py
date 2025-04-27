@@ -1,4 +1,4 @@
-from app.models import DB
+from app import DB
 from sqlalchemy.orm import Mapped
 from datetime import date
 
