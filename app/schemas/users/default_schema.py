@@ -1,0 +1,48 @@
+from marshmallow import fields, Schema, pre_load
+from bleach import clean
+
+
+class UserDefaultSchema(Schema):
+    username = fields.Str(
+        required=True,
+        validate=lambda x: 4 <= len(x) <= 25,
+        error_messages={
+            "required": "Nome de usuário é obrigatório.",
+            "validator_failed": "Nome de usuário deve ter de 4 a 20 caracteres.",
+            "null": "Nome de usuário não pode ser nulo.",
+        },
+        nullable=False,
+    )
+
+    nome = fields.Str(
+        required=True,
+        validate=lambda x: 2 <= len(x) <= 80,
+        error_messages={
+            "required": "Nome é obrigatório.",
+            "validator_failed": "Nome deve ter de 2 a 80 caracteres.",
+            "null": "Nome não pode ser nulo.",
+        },
+        nullable=False,
+    )
+
+    email = fields.Email(
+        required=True,
+        error_messages={
+            "required": "Email é obrigatório.",
+            "null": "Email não pode ser nulo.",
+            "invalid": "Email inválido.",
+        },
+        nullable=False,
+    )
+
+    password = fields.Str(
+        required=True,
+        validate=lambda x: 6 <= len(x) <= 100,
+        error_messages={
+            "required": "Senha é obrigatória.",
+            "validator_failed": "Senha deve ter de 6 a 100 caracteres.",
+            "null": "Senha não pode ser nula.",
+        },
+        load_only=True,
+        nullable=False,
+    )
