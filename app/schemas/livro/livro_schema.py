@@ -46,5 +46,5 @@ class LivroSchema(Schema):
     def sanitize_input(self, data, **kwargs):
         for key, value in data.items():
             if isinstance(value, str):
-                data[key] = clean(value)
+                data[key] = clean(value, strip=True)
         return data

@@ -1,4 +1,4 @@
-from marshmallow import fields, Schema, pre_load
+from marshmallow import ValidationError, Schema, validates_schema, pre_load, fields
 from bleach import clean
 
 
@@ -46,3 +46,32 @@ class UserDefaultSchema(Schema):
         load_only=True,
         nullable=False,
     )
+
+    password_confirmation = fields.Str(
+        required=True,
+        validate=lambda x: 6 <= len(x) <= 100,
+        error_messages={
+            "required": "Confirmação de senha é obrigatória.",
+            "validator_failed": "Confirmação de senha deve ter de 6 a 100 caracteres.",
+            "null": "Confirmação de senha não pode ser nula.",
+        },
+        load_only=True,
+        nullable=False,
+    )
+
+    @validates_schema
+    def validate_password_confirmation(self, data, **kwargs):
+        if data.get("password") != data.get("password_confirmation"):
+            raise ValidationError(
+                "As senhas não coincidem.", field_name="password_confirmation"
+            )
+
+    @pre_load
+    def sanitize_input(self, data, **kwargs):
+        """
+        Sanitize input data to prevent XSS attacks.
+        """
+        for key, value in data.items():
+            if isinstance(value, str):
+                data[key] = clean(value, strip=True)
+        return data
