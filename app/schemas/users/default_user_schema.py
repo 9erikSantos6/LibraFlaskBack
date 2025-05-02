@@ -25,16 +25,6 @@ class UserDefaultSchema(Schema):
         nullable=False,
     )
 
-    email = fields.Email(
-        required=True,
-        error_messages={
-            "required": "Email é obrigatório.",
-            "null": "Email não pode ser nulo.",
-            "invalid": "Email inválido.",
-        },
-        nullable=False,
-    )
-
     password = fields.Str(
         required=True,
         validate=lambda x: 6 <= len(x) <= 100,

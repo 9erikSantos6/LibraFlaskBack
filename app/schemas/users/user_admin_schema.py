@@ -1,7 +1,7 @@
 from marshmallow import fields, Schema, pre_load
 from bleach import clean
 
-from .default_schema import UserDefaultSchema
+from .default_user_schema import UserDefaultSchema
 
 
 class UserAdminSchema(UserDefaultSchema):
