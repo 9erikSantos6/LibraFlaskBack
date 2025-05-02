@@ -1,10 +1,9 @@
-from marshmallow import Schema, fields, validate, pre_load
-from bleach import clean
+from marshmallow import fields
 
-from .default_user_schema import UserDefaultSchema
+from .default_user_schema import DefaultUserSchema
 
 
-class UserSchema(UserDefaultSchema):
+class CommonUserSchema(DefaultUserSchema):
     """
     Schema for user operations.
     Inherits from UserDefaultSchema to include common user fields.

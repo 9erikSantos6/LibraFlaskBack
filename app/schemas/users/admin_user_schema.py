@@ -1,10 +1,7 @@
-from marshmallow import fields, Schema, pre_load
-from bleach import clean
-
-from .default_user_schema import UserDefaultSchema
+from .default_user_schema import DefaultUserSchema
 
 
-class UserAdminSchema(UserDefaultSchema):
+class AdminUserSchema(DefaultUserSchema):
     """
     Schema for user admin operations.
     Inherits from UserDefaultSchema to include common user fields.

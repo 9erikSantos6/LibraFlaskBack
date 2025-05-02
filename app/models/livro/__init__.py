@@ -1,1 +1,1 @@
-from .livro import Livro
+from .livro import LivroModel

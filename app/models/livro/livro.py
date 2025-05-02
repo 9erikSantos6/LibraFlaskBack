@@ -1,15 +1,18 @@
-from app import DB
-from sqlalchemy.orm import Mapped
+from app.extensions import DB
 from datetime import date
+from sqlalchemy.orm import Mapped
+from sqlalchemy import Column, Integer, String, Text, Date
 
 
-class Livro(DB.Model):
-    id: Mapped[int] = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
-    titulo: Mapped[str] = DB.Column(DB.String(200), nullable=False)
-    autor: Mapped[str] = DB.Column(DB.String(200), nullable=False)
-    ano: Mapped[date] = DB.Column(DB.Date)
-    genero: Mapped[str] = DB.Column(DB.String(50))
-    sinopse: Mapped[str] = DB.Column(DB.Text)
+class LivroModel(DB.Model):
+    __tablename__ = "livro"
+
+    id: Mapped[int] = Column(Integer, primary_key=True, autoincrement=True)
+    titulo: Mapped[str] = Column(String(200), nullable=False)
+    autor: Mapped[str] = Column(String(200), nullable=False)
+    ano: Mapped[date] = Column(Date)
+    genero: Mapped[str] = Column(String(50))
+    sinopse: Mapped[str] = Column(Text)
 
     def to_dict(self):
         return {

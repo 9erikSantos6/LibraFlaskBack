@@ -1,11 +1,9 @@
 from flask import Flask, jsonify
-from flask_sqlalchemy import SQLAlchemy
 from marshmallow import ValidationError
 
 from app.config import BlueprintCreator, EnvConfigurator, DatabaseConfigurator
+from app.extensions import DB
 
-
-DB = SQLAlchemy()
 
 APP_BLUEPRINTS = [
     # ("module.name", "blueprint_name")

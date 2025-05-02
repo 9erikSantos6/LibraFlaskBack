@@ -1,5 +1,5 @@
-from .livro import Livro
-from .users import User, UserAdmin
+from .livro import LivroModel
+from .users import AdminUserModel, CommonUserModel
 
 
-__all__ = ["Livro", "User", "UserAdmin"]
+__all__ = ["Livro", "AdminUserModel", "AdminUserModel"]

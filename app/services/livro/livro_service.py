@@ -1,5 +1,5 @@
-from app import DB
-from app.models import Livro
+from app.extensions import DB
+from app.models import LivroModel
 from .livro_validations import LivroValidador
 
 
@@ -7,19 +7,19 @@ class LivroService:
     @staticmethod
     def criar_livro(data):
         dados_livro_validados = LivroValidador.validar_dados(data)
-        livro = Livro(**dados_livro_validados)
+        livro = LivroModel(**dados_livro_validados)
         DB.session.add(livro)
         DB.session.commit()
         return livro
 
     @staticmethod
     def listar_livros():
-        livros = Livro.query.all()
+        livros = LivroModel.query.all()
         return [livro.to_dict() for livro in livros]
 
     @staticmethod
     def listar_livro_por_id(livro_id):
-        livro = Livro.query.get(livro_id)
+        livro = LivroModel.query.get(livro_id)
         if livro:
             return livro.to_dict()
         else:
@@ -27,7 +27,7 @@ class LivroService:
 
     @staticmethod
     def atualizar_livro(livro_id, data):
-        livro = Livro.query.get(livro_id)
+        livro = LivroModel.query.get(livro_id)
         if not livro:
             raise ValueError("Livro não encontrado")
 
@@ -40,7 +40,7 @@ class LivroService:
 
     @staticmethod
     def deletar_livro(livro_id):
-        livro = Livro.query.get(livro_id)
+        livro = LivroModel.query.get(livro_id)
         if not livro:
             raise ValueError("Livro não encontrado")
 
@@ -50,7 +50,7 @@ class LivroService:
 
     @staticmethod
     def atualizar_livro_parcial(livro_id, data):
-        livro = Livro.query.get(livro_id)
+        livro = LivroModel.query.get(livro_id)
         if not livro:
             raise ValueError("Livro não encontrado")
 
@@ -63,7 +63,7 @@ class LivroService:
 
     @staticmethod
     def listar_livro_por_titulo(titulo: str):
-        livros = Livro.query.filter(Livro.titulo.ilike(f"%{titulo}%")).all()
+        livros = LivroModel.query.filter(LivroModel.titulo.ilike(f"%{titulo}%")).all()
         if livros:
             return [livro.to_dict() for livro in livros]
         else:
@@ -71,7 +71,7 @@ class LivroService:
 
     @staticmethod
     def listar_livro_por_autor(autor: str):
-        livros = Livro.query.filter_by(autor=autor).all()
+        livros = LivroModel.query.filter_by(autor=autor).all()
         if livros:
             return [livro.to_dict() for livro in livros]
         else:
@@ -79,7 +79,7 @@ class LivroService:
 
     @staticmethod
     def listar_livro_por_genero(genero: str):
-        livros = Livro.query.filter_by(genero=genero).all()
+        livros = LivroModel.query.filter_by(genero=genero).all()
         if livros:
             return [livro.to_dict() for livro in livros]
         else:
@@ -87,7 +87,7 @@ class LivroService:
 
     @staticmethod
     def listar_livro_por_ano(ano: str):
-        livros = Livro.query.filter_by(ano=ano).all()
+        livros = LivroModel.query.filter_by(ano=ano).all()
         if livros:
             return [livro.to_dict() for livro in livros]
         else:

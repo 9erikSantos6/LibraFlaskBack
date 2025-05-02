@@ -1,2 +1,4 @@
-from .user_admin_schema import UserAdminSchema
-from .user_schema import UserSchema
+from .admin_user_schema import AdminUserSchema
+from .common_user_schema import CommonUserSchema
+
+__all__ = ["AdminUserSchema", "CommonUserSchema"]

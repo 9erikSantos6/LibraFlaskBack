@@ -2,7 +2,7 @@ from marshmallow import ValidationError, Schema, validates_schema, pre_load, fie
 from bleach import clean
 
 
-class UserDefaultSchema(Schema):
+class DefaultUserSchema(Schema):
     username = fields.Str(
         required=True,
         validate=lambda x: 4 <= len(x) <= 25,
