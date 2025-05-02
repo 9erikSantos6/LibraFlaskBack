@@ -1,20 +1,18 @@
 from app.extensions import DB
-from enum import Enum as PyEnum
 from sqlalchemy.orm import Mapped
+from app.shared.enums import UserRoleEnum
 from datetime import datetime, timezone
-from sqlalchemy import DateTime, Column, String, Enum as SQLAEnum
+from sqlalchemy import DateTime, Column, String, Enum
 from werkzeug.security import generate_password_hash, check_password_hash
 
-class UserRoleEnum(PyEnum):
-    ADMIN = "admin"
-    USER = "user"
+
 
 class UserModel(DB.Model):
     __abstract__ = True
 
     username: Mapped[str] = Column(String(20), primary_key=True, nullable=False)
     nome: Mapped[str] = Column(String(80), nullable=False)
-    _role: Mapped[UserRoleEnum] = Column("role", SQLAEnum(UserRoleEnum), nullable=False)
+    _role: Mapped[UserRoleEnum] = Column("role", Enum(UserRoleEnum), nullable=False)
     _password: Mapped[str] = Column("password", String(100), nullable=False)
     registration_timestamp: Mapped[datetime] = Column(
         DateTime(timezone=True), 
