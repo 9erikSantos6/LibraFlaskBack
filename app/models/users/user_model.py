@@ -1,4 +1,4 @@
-from app.extensions import DB
+from app.shared.extensions import DB
 from sqlalchemy.orm import Mapped
 from app.shared.enums import UserRoleEnum
 from datetime import datetime, timezone

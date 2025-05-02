@@ -1,4 +1,4 @@
-from app.extensions import DB
+from app.shared.extensions import DB
 from datetime import date
 from sqlalchemy.orm import Mapped
 from sqlalchemy import Column, Integer, String, Text, Date

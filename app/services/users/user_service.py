@@ -1,13 +1,13 @@
-from app.extensions import DB
+from app.shared.extensions import DB
 from app.models.users import CommonUserModel
 from app.services.auth import Autenticador
-from .user_validation import UserValidador
+from app.shared.validators.users import CommonUserValidador
 
 
 class UserService:
     @staticmethod
     def registrar_user(data):
-        user_valid_data = UserValidador.validate_user(data)
+        user_valid_data = CommonUserValidador.validate_user(data)
 
         if CommonUserModel.query.filter_by(email=user_valid_data["email"]).first():
             raise ValueError("Email já está em uso.")

@@ -6,7 +6,7 @@ from config import EnvConfigType
 from sqlalchemy import text, inspect
 from flask_sqlalchemy import SQLAlchemy
 
-from app.config.env.env_config import EnvConfigurator
+from app.config.environment import EnvConfigurator
 
 
 class DatabaseConfigurator:

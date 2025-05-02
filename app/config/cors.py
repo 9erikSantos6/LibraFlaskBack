@@ -4,7 +4,7 @@ import json
 from flask import Flask
 from flask_cors import CORS
 from config import BASE_DIR
-from app.config.env.env_config import EnvConfigurator
+from app.config.environment import EnvConfigurator
 
 
 class CORSConfigurator:

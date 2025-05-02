@@ -1,8 +1,8 @@
-from app.extensions import DB
+from app.shared.extensions import DB
 from app.models.users import AdminUserModel
 from app.services.auth import Autenticador
 
-from .user_admin_validations import UserAdminValidador
+from app.shared.validators.users import UserAdminValidador
 
 
 class UserAdminService:

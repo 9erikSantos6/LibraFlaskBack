@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 from marshmallow import ValidationError
 
 from app.config import BlueprintCreator, EnvConfigurator, DatabaseConfigurator
-from app.extensions import DB
+from app.shared.extensions import DB
 
 
 APP_BLUEPRINTS = [

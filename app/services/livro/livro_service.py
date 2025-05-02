@@ -1,6 +1,6 @@
-from app.extensions import DB
 from app.models import LivroModel
-from .livro_validations import LivroValidador
+from app.shared.extensions import DB
+from app.shared.validators.livro import LivroValidador
 
 
 class LivroService:
