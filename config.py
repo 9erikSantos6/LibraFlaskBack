@@ -27,6 +27,11 @@ class Config:
         "SQLALCHEMY_DATABASE_URI",
         f"sqlite:///{os.path.join(BASE_DIR, 'app/db/LibraFlask.db')}",
     )
+    SERVER_SECRET_KEY = os.getenv("SERVER_SECRET_KEY")
+    if not SERVER_SECRET_KEY:
+        raise RuntimeError("SERVER_SECRET_KEY não configurado no ambiente.")
+    SERVER_CREATE_DEFAULT_ADMIN = os.getenv("SERVER_CREATE_DEFAULT_ADMIN", "false").lower()
+    SERVER_CREATE_DEFAULT_ADMIN = False if SERVER_CREATE_DEFAULT_ADMIN not in ["true", "1", "yes"] else True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
     TESTING = False

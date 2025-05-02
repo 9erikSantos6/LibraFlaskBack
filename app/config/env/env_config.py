@@ -1,12 +1,12 @@
 import os
 
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from config import EnvConfigType
 
 
 class EnvConfigurator:
     _env_config_name = None
+    _create_default_admin = None
 
     @staticmethod
     def get_env_name():
@@ -26,3 +26,12 @@ class EnvConfigurator:
     def load_app_config(app: Flask):
         env_name = EnvConfigurator.get_env_name()
         app.config.from_object(EnvConfigType[env_name].value)
+
+    @staticmethod
+    def criar_admin_padrao_definido():
+        if EnvConfigurator._create_default_admin is None:
+            value = os.getenv("SERVER_CREATE_DEFAULT_ADMIN", "false").strip().lower()
+            EnvConfigurator._create_default_admin = value in ["true", "1", "yes"]
+        return EnvConfigurator._create_default_admin
+
+        
