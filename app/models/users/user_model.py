@@ -30,6 +30,10 @@ class UserModel(DB.Model):
         super().__setattr__(name, value)
 
     @property
+    def role(self):
+        return self._role
+
+    @property
     def password(self):
         raise AttributeError("Acesso direto ao campo 'password' não é permitido. Use 'set_password'.")
 
