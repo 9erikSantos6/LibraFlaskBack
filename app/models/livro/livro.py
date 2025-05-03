@@ -1,7 +1,11 @@
-from app.shared.extensions import DB
 from datetime import date
-from sqlalchemy.orm import Mapped
-from sqlalchemy import Column, Integer, String, Text, Date
+from typing import TYPE_CHECKING
+from app.shared.extensions import DB
+from sqlalchemy.orm import Mapped, relationship
+from sqlalchemy import ForeignKey, Column, Integer, String, Text, Date
+
+
+if TYPE_CHECKING: from app.models.users import CommonUserModel
 
 
 class LivroModel(DB.Model):
@@ -13,6 +17,8 @@ class LivroModel(DB.Model):
     ano: Mapped[date] = Column(Date)
     genero: Mapped[str] = Column(String(50))
     sinopse: Mapped[str] = Column(Text)
+    usuario_username: Mapped[str] = Column(String(20), ForeignKey("user.username"), nullable=False)
+    usuario: Mapped["CommonUserModel"] = relationship("CommonUserModel", back_populates="livros")
 
     def to_dict(self):
         return {
