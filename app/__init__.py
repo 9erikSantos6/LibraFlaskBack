@@ -1,15 +1,10 @@
 from flask import Flask, jsonify
 from marshmallow import ValidationError
 
-from app.config import BlueprintCreator, EnvConfigurator, DatabaseConfigurator
+from app.config import EnvConfigurator, DatabaseConfigurator
+from app.config.blueprints import APP_BLUEPRINTS
+from app.shared.utils.blueprint import BlueprintLoader
 from app.shared.extensions import DB
-
-
-APP_BLUEPRINTS = [
-    # ("module.name", "blueprint_name")
-    ("app.routers.main_router", "main_bp"),
-    ("app.routers.livro_router", "livro_bp"),
-]
 
 
 def create_app():
@@ -22,7 +17,7 @@ def create_app():
     with app.app_context():
         DatabaseConfigurator.init_db(app, DB)
 
-    BlueprintCreator.criar_blueprints(app, APP_BLUEPRINTS)
+    BlueprintLoader.criar_blueprints(app, APP_BLUEPRINTS)
 
     @app.errorhandler(ValidationError)
     def handle_validation_error(err):
