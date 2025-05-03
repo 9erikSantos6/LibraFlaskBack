@@ -40,8 +40,6 @@ class UserService:
         validated_login_data = CommonUserValidador.validar_user_login_data(data)
         email = validated_login_data["email"]
 
-        print(f"\n\n EMAIL RECIVED: {email}\n\n")
-
         user = CommonUserModel.query.filter_by(email=email).first()
         if not user:
             raise ValueError("Usuário não existe")
