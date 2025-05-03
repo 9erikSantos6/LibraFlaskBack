@@ -7,7 +7,7 @@ from app.shared.validators.users import CommonUserValidador
 class UserService:
     @staticmethod
     def registrar_user(data):
-        user_valid_data = CommonUserValidador.validate_user(data)
+        user_valid_data = CommonUserValidador.validar_user_registration_data(data)
 
         if CommonUserModel.query.filter_by(email=user_valid_data["email"]).first():
             raise ValueError("Email já está em uso.")
@@ -22,7 +22,7 @@ class UserService:
             username=user_valid_data["username"],
             nome=user_valid_data["nome"],
             email=user_valid_data["email"],
-            passord=user_valid_data["password"]
+            password=user_valid_data["password"]
         )
 
         DB.session.add(user)
@@ -36,13 +36,20 @@ class UserService:
         return {"message": "Usuário registrado com sucesso", "user": confirm_user_data}
     
     @staticmethod
-    def logar_user_admin(email: str, senha: str):
-        user = CommonUserModel.query.filter_by(username=email).first()
+    def logar_user(data):
+        validated_login_data = CommonUserValidador.validar_user_login_data(data)
+        email = validated_login_data["email"]
+
+        print(f"\n\n EMAIL RECIVED: {email}\n\n")
+
+        user = CommonUserModel.query.filter_by(email=email).first()
         if not user:
-            raise ValueError("Usuário não registrado no sistema")
-        
+            raise ValueError("Usuário não existe")
+
+        senha = validated_login_data["password"]
+
         if not user.check_password(senha):
             raise ValueError("Credenciais inválidas")
 
-        token = Autenticador.gerar_user_token(user.username, user.role)
+        token = Autenticador.gerar_token(user.username, user.role)
         return {"auth_token": token} 

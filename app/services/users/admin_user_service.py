@@ -8,7 +8,7 @@ from app.shared.validators.users import UserAdminValidador
 class UserAdminService:
     @staticmethod
     def registrar_user_admin(data):
-        user_admin_valid_data = UserAdminValidador.validate_user_admin(data)
+        user_admin_valid_data = UserAdminValidador.validar_admin_user_registration_data(data)
 
         if AdminUserModel.query.filter_by(username=user_admin_valid_data["username"]).first():
             raise ValueError("Username já cadastrado em outro usuário")
@@ -33,13 +33,18 @@ class UserAdminService:
         return {"message": "Usuário registrado com sucesso", "user": confirm_user_admin_data}
 
     @staticmethod
-    def logar_user_admin(username: str, senha: str):
+    def logar_user_admin(data):
+        validated_login_data = UserAdminValidador.validar_admin_user_login_data(data)
+        username = validated_login_data["username"]
+
         user_admin = AdminUserModel.query.filter_by(username=username).first()
         if not user_admin:
-            raise ValueError("Usuário não registrado no sistema")
-        
+            raise ValueError("Usuário não existe")
+
+        senha = validated_login_data["password"]
+
         if not user_admin.check_password(senha):
             raise ValueError("Credenciais inválidas")
 
-        token = Autenticador.gerar_user_token(user_admin.username, user_admin.role)
+        token = Autenticador.gerar_token(user_admin.username, user_admin.role)
         return {"auth_token": token} 

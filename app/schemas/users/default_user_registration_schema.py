@@ -1,4 +1,4 @@
-from marshmallow import ValidationError, Schema, validates_schema, pre_load, fields
+from marshmallow import ValidationError, Schema, validates_schema, pre_load, validates, fields
 from bleach import clean
 
 
@@ -49,6 +49,11 @@ class DefaultUserSchema(Schema):
         nullable=False,
     )
 
+    @validates("username")
+    def validate_username_lowercase(self, value):
+        if any(c.isupper() for c in value):
+            raise ValidationError("Nome de usuário não pode conter letras maiúsculas.")
+
     @validates_schema
     def validate_password_confirmation(self, data, **kwargs):
         if data.get("password") != data.get("password_confirmation"):
@@ -59,7 +64,7 @@ class DefaultUserSchema(Schema):
     @pre_load
     def sanitize_input(self, data, **kwargs):
         """
-        Sanitize input data to prevent XSS attacks.
+        Sanitização para previnir XSS
         """
         for key, value in data.items():
             if isinstance(value, str):

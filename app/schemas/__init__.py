@@ -1,4 +1,15 @@
 from .livro import LivroSchema
-from .users import AdminUserSchema, CommonUserSchema
+from .users import (
+    AdminUserLoginSchema,
+    AdminUserRegistrationSchema,
+    CommonUserLoginSchema,
+    CommonUserRegistrationSchema
+)
 
-__all__ = ["LivroSchema", "AdminUserSchema", "CommonUserSchema"]
+__all__ = [
+    "LivroSchema", 
+    "AdminUserLoginSchema", 
+    "AdminUserRegistrationSchema",
+    "CommonUserLoginSchema",
+    "CommonUserRegistrationSchema"
+]

@@ -1,9 +1,9 @@
 from marshmallow import fields
 
-from .default_user_schema import DefaultUserSchema
+from app.schemas.users.default_user_registration_schema import DefaultUserSchema
 
 
-class CommonUserSchema(DefaultUserSchema):
+class CommonUserRegistrationSchema(DefaultUserSchema):
     """
     Schema for user operations.
     Inherits from UserDefaultSchema to include common user fields.

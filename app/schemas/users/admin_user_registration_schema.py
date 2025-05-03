@@ -1,7 +1,7 @@
-from .default_user_schema import DefaultUserSchema
+from app.schemas.users.default_user_registration_schema import DefaultUserSchema
 
 
-class AdminUserSchema(DefaultUserSchema):
+class AdminUserRegistrationSchema(DefaultUserSchema):
     """
     Schema for user admin operations.
     Inherits from UserDefaultSchema to include common user fields.

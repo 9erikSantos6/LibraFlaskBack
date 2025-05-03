@@ -1,5 +1,5 @@
-from .user_admin_service import UserAdminService
-from .user_service import UserService
+from .admin_user_service import UserAdminService
+from .common_user_service import UserService
 
 
 __all__ = ["UserAdminService", "UserService"]
