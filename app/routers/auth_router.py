@@ -10,7 +10,7 @@ def user_login():
 
     try:
         user_login_token = UserService.logar_user(data)
-        return jsonify(user_login_token), 200
+        return jsonify(user_login_token), 201
     except ValueError as e:
         return jsonify({"error": str(e)}), 406
 
@@ -21,7 +21,7 @@ def user_registration():
 
     try:
         user_registration_confirmation = UserService.registrar_user(data)
-        return jsonify(user_registration_confirmation), 200
+        return jsonify(user_registration_confirmation), 201
     except ValueError as e:
         return jsonify({"error": str(e)}), 406
 

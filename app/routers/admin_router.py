@@ -10,7 +10,7 @@ def admin_login():
 
     try:
         admin_login_token = UserAdminService.logar_user_admin(data)
-        return jsonify(admin_login_token), 200
+        return jsonify(admin_login_token), 201
     except ValueError as e:
         return jsonify({"error": str(e)}), 406
     
@@ -20,6 +20,6 @@ def registrar_admin():
 
     try:
         admin_registration_confirmation = UserAdminService.registrar_user_admin(data)
-        return jsonify(admin_registration_confirmation), 200
+        return jsonify(admin_registration_confirmation), 201
     except ValueError as e:
         return jsonify({"error": str(e)}), 406
