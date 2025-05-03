@@ -34,4 +34,8 @@ class EnvConfigurator:
             EnvConfigurator._create_default_admin = value in ["true", "1", "yes"]
         return EnvConfigurator._create_default_admin
 
-        
+    @staticmethod
+    def get_config():
+        env_name = EnvConfigurator.get_env_name()
+        config_class = EnvConfigType[env_name].value
+        return config_class
