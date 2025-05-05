@@ -5,7 +5,9 @@ from app.shared.validators.livro import LivroValidador
 
 class LivroService:
     @staticmethod
-    def criar_livro(data):
+    def criar_livro(data: dict, user_username=str):
+        if not data.get("usuario_username"):
+            data["usuario_username"] = user_username
         dados_livro_validados = LivroValidador.validar_dados(data)
         livro = LivroModel(**dados_livro_validados)
         DB.session.add(livro)
@@ -13,21 +15,21 @@ class LivroService:
         return livro
 
     @staticmethod
-    def listar_livros():
-        livros = LivroModel.query.all()
+    def listar_livros(user_username=str):
+        livros = LivroModel.query.filter(LivroModel.usuario_username.ilike(f"{user_username}")).all()
         return [livro.to_dict() for livro in livros]
 
     @staticmethod
-    def listar_livro_por_id(livro_id):
-        livro = LivroModel.query.get(livro_id)
+    def listar_livro_por_id(livro_id, user_username=str):
+        livro = LivroModel.query.filter_by(id=livro_id, usuario_username=user_username).first()
         if livro:
             return livro.to_dict()
         else:
             raise ValueError("Livro não encontrado")
 
     @staticmethod
-    def atualizar_livro(livro_id, data):
-        livro = LivroModel.query.get(livro_id)
+    def atualizar_livro(livro_id, data, user_username: str):
+        livro = LivroModel.query.filter_by(id=livro_id, usuario_username=user_username).first()
         if not livro:
             raise ValueError("Livro não encontrado")
 
@@ -39,8 +41,8 @@ class LivroService:
         return livro.to_dict()
 
     @staticmethod
-    def deletar_livro(livro_id):
-        livro = LivroModel.query.get(livro_id)
+    def deletar_livro(livro_id, user_username:str):
+        livro = LivroModel.query.filter_by(id=livro_id, usuario_username=user_username).first()
         if not livro:
             raise ValueError("Livro não encontrado")
 
@@ -49,8 +51,8 @@ class LivroService:
         return {"message": "Livro deletado com sucesso"}
 
     @staticmethod
-    def atualizar_livro_parcial(livro_id, data):
-        livro = LivroModel.query.get(livro_id)
+    def atualizar_livro_parcial(livro_id, data, user_username:str):
+        livro = LivroModel.query.filter_by(id=livro_id, usuario_username=user_username).first()
         if not livro:
             raise ValueError("Livro não encontrado")
 
@@ -61,33 +63,34 @@ class LivroService:
         DB.session.commit()
         return livro.to_dict()
 
+# CONTINUAR IMPLEMENTANDO USER USERNAME...
     @staticmethod
-    def listar_livro_por_titulo(titulo: str):
-        livros = LivroModel.query.filter(LivroModel.titulo.ilike(f"%{titulo}%")).all()
+    def listar_livro_por_titulo(titulo: str, user_username: str):
+        livros = LivroModel.query.filter_by(titulo=titulo, usuario_username=user_username).all()
         if livros:
             return [livro.to_dict() for livro in livros]
         else:
             raise ValueError("Nenhum livro encontrado para o título especificado")
 
     @staticmethod
-    def listar_livro_por_autor(autor: str):
-        livros = LivroModel.query.filter_by(autor=autor).all()
+    def listar_livro_por_autor(autor: str, user_username: str):
+        livros = LivroModel.query.filter_by(autor=autor,usuario_username=user_username).all()
         if livros:
             return [livro.to_dict() for livro in livros]
         else:
             raise ValueError("Nenhum livro encontrado para o autor especificado")
 
     @staticmethod
-    def listar_livro_por_genero(genero: str):
-        livros = LivroModel.query.filter_by(genero=genero).all()
+    def listar_livro_por_genero(genero: str, user_username: str):
+        livros = LivroModel.query.filter_by(genero=genero, usuario_username=user_username).all()
         if livros:
             return [livro.to_dict() for livro in livros]
         else:
             raise ValueError("Nenhum livro encontrado para o gênero especificado")
 
     @staticmethod
-    def listar_livro_por_ano(ano: str):
-        livros = LivroModel.query.filter_by(ano=ano).all()
+    def listar_livro_por_ano(ano: str, user_username: str):
+        livros = LivroModel.query.filter_by(ano=ano, usuario_username=user_username).all()
         if livros:
             return [livro.to_dict() for livro in livros]
         else:

@@ -32,3 +32,21 @@ class Autenticador:
             payload["role"] = role.value
 
         return jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+
+    @staticmethod 
+    def obter_payload_autenticado_usuario(auth_header):
+        token = Autenticador.tratar_user_token(auth_header)
+        payload = Autenticador.decode_token(token)
+        if not payload.get("sub"):
+            raise ValueError("Você não possui autorização para acessar este recurso")
+        return payload
+    
+    @staticmethod
+    def tratar_user_token(authorization: str):
+        if not authorization:
+            raise ValueError("Nenhuma autorização foi envida no cabeçalho")
+        if authorization.startswith("Bearer "):
+            token = authorization.split(" ")[1]
+        else:
+            token = authorization
+        return token

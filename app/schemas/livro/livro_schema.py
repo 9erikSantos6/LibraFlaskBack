@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, pre_load
+from marshmallow import Schema, fields, pre_load, validates, ValidationError
 from bleach import clean
 
 
@@ -41,6 +41,22 @@ class LivroSchema(Schema):
         validate=lambda x: 2 <= len(x) <= 500,
         error_messages={"validator_failed": "Sinopse deve ter de 2 a 500 caracteres."},
     )
+
+    usuario_username = fields.Str(
+        required=True,
+        validate=lambda x: 4 <= len(x) <= 25,
+        error_messages={
+            "required": "Nome de usuário é obrigatório.",
+            "validator_failed": "Nome de usuário deve ter de 4 a 20 caracteres.",
+            "null": "Nome de usuário não pode ser nulo.",
+        },
+        nullable=False,
+    )
+
+    @validates("usuario_username")
+    def validate_username_lowercase(self, value):
+        if any(c.isupper() for c in value):
+            raise ValidationError("Nome de usuário não pode conter letras maiúsculas.")
 
     @pre_load
     def sanitize_input(self, data, **kwargs):
